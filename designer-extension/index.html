@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Blog Scheduler</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./panel.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Blog Scheduler</h1>
+      <p class="muted">Editorial calendar and scheduled publishing for your blog collection.</p>
+    </header>
+
+    <section class="card" id="connect-card" hidden>
+      <h2>Connect</h2>
+      <p class="muted">Paste the API base URL, Site ID and panel token shown after installation.</p>
+      <div class="row">
+        <input id="conn-api" placeholder="API base URL (https://...)" />
+        <input id="conn-site" placeholder="Site ID" />
+        <input id="conn-token" type="password" placeholder="Panel token" />
+        <button id="conn-save" class="btn primary">Connect</button>
+      </div>
+    </section>
+
+    <div id="main" hidden>
+      <nav class="tabs">
+        <button class="tab active" data-tab="calendar">Calendar</button>
+        <button class="tab" data-tab="failures">Failures <span id="failure-count" class="pill" hidden></span></button>
+        <button class="tab" data-tab="log">Publish log</button>
+        <button class="tab" data-tab="settings">Settings</button>
+      </nav>
+      <div id="notice" class="notice" hidden></div>
+
+      <section id="tab-calendar" class="tab-body">
+        <div class="toolbar">
+          <button id="prev" class="btn">&lsaquo;</button>
+          <strong id="range-label"></strong>
+          <button id="next" class="btn">&rsaquo;</button>
+          <button id="today" class="btn">Today</button>
+          <select id="view">
+            <option value="month">Month</option>
+            <option value="week">Week</option>
+          </select>
+          <span class="spacer"></span>
+          <span id="tz-label" class="muted"></span>
+          <button id="new-post" class="btn primary">New post</button>
+        </div>
+        <div id="bulk-bar" class="bulk" hidden>
+          <span id="bulk-count"></span>
+          <label>Shift by <input id="bulk-days" type="number" value="1" step="1" style="width:4rem" /> day(s)</label>
+          <button id="bulk-apply" class="btn primary">Reschedule selected</button>
+          <button id="bulk-clear" class="btn">Clear</button>
+        </div>
+        <p class="muted small">Drag a post onto a day to reschedule it. Shift-click posts to select several for a bulk reschedule.</p>
+        <div class="calendar-layout">
+          <div>
+            <div id="weekdays" class="grid weekdays"></div>
+            <div id="grid" class="grid"></div>
+          </div>
+          <aside class="card backlog">
+            <h3>Unscheduled</h3>
+            <div id="backlog" class="backlog-list"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="tab-failures" class="tab-body" hidden>
+        <div id="failures"></div>
+      </section>
+
+      <section id="tab-log" class="tab-body" hidden>
+        <div class="toolbar">
+          <button id="log-refresh" class="btn">Refresh</button>
+          <button id="log-run" class="btn">Run scheduler now</button>
+          <button id="log-csv" class="btn">Export CSV</button>
+        </div>
+        <h3>Runs</h3>
+        <table id="runs"></table>
+        <h3>Entries</h3>
+        <table id="log"></table>
+      </section>
+
+      <section id="tab-settings" class="tab-body" hidden>
+        <div class="card">
+          <h2>Blog collection</h2>
+          <div class="row">
+            <select id="set-collection"></select>
+            <button id="set-detect" class="btn">Load collections</button>
+          </div>
+          <div id="map-fields" class="map-fields"></div>
+          <button id="set-save-map" class="btn primary">Save mapping</button>
+        </div>
+        <div class="card">
+          <h2>Timezone</h2>
+          <p class="muted">Posts are stored in UTC and shown and scheduled in this IANA timezone.</p>
+          <div class="row">
+            <input id="set-tz" list="tz-list" placeholder="e.g. America/New_York" />
+            <datalist id="tz-list"></datalist>
+            <button id="set-save-tz" class="btn primary">Save timezone</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <dialog id="post-dialog">
+    <form method="dialog" id="post-form">
+      <h2 id="post-dialog-title">Post</h2>
+      <label>Title <input id="f-title" required /></label>
+      <label>Slug <input id="f-slug" placeholder="auto-generated from title" /></label>
+      <label>Author <input id="f-author" /></label>
+      <label>Status
+        <select id="f-status">
+          <option value="idea">Idea</option>
+          <option value="draft">Draft</option>
+          <option value="review">Review</option>
+          <option value="scheduled">Scheduled</option>
+          <option value="published" disabled>Published</option>
+        </select>
+      </label>
+      <label>Publish at (site timezone) <input id="f-when" type="datetime-local" /></label>
+      <label>Body <textarea id="f-body" rows="8"></textarea></label>
+      <div class="row end">
+        <button type="button" id="f-delete" class="btn danger">Delete</button>
+        <button type="button" id="f-publish-now" class="btn">Publish now</button>
+        <button type="button" id="f-cancel" class="btn">Cancel</button>
+        <button type="submit" id="f-save" class="btn primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="./dist/panel.js"></script>
+</body>
+</html>

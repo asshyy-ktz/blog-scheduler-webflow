@@ -1,0 +1,7 @@
+{
+  "name": "blog-scheduler-webflow",
+  "displayName": "Blog Scheduler",
+  "size": "large",
+  "entrypoint": "index.html",
+  "permissions": ["site.read", "cms.read", "cms.write"]
+}

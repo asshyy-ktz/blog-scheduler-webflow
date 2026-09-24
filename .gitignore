@@ -1,0 +1,7 @@
+node_modules/
+dist/
+designer-extension/dist/
+*.tsbuildinfo
+.env
+db/*.sqlite
+db/*.sqlite-*

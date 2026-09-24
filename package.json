@@ -1,0 +1,28 @@
+{
+  "name": "blog-scheduler-webflow",
+  "version": "1.0.0",
+  "description": "Webflow App: editorial calendar and scheduled publishing for CMS blog posts.",
+  "private": true,
+  "main": "server/index.ts",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "ts-node server/index.ts",
+    "start": "node dist/server/index.js",
+    "build": "tsc -p tsconfig.json",
+    "build:extension": "node designer-extension/esbuild.config.mjs",
+    "watch:extension": "node designer-extension/esbuild.config.mjs --watch"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5",
+    "better-sqlite3": "^11.1.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "ts-node": "^10.9.2",
+    "esbuild": "^0.23.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.9",
+    "@types/better-sqlite3": "^7.6.11"
+  }
+}
